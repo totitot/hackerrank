@@ -29,12 +29,7 @@ int main() {
 	}
 	
 	for( auto i = 0; i < q; i++ ){
-		getline(cin, str);
-		istringstream ost(str);
-		ost >> str;
-		n = stoi(str);
-		ost >> str;
-		temp = stoi(str);
+		cin >> n >> temp;
 		cout << vv_int[n][temp] << endl;
 	}
 
