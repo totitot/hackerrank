@@ -29,6 +29,109 @@ class Cache{
 };
 
 class LRUCache: public Cache{
+public:
+	LRUCache(int capacity):size{0}{
+		cp = capacity;
+		tail = head = nullptr;
+	}
+
+	virtual void set(int k, int val){
+		auto check = mp.find(k);
+
+		if(check != mp.end()){
+#ifdef DEBUG
+			cout << "Found key" << endl;
+#endif
+			if( check->second != head ){
+				detach(check->second);
+				push_front(check->second);
+			}
+			check->second->value = val;
+		}
+		else{
+#ifdef DEBUG
+			cout << "Not found key" << endl;
+#endif
+			Node* node = new Node(k,val);
+			push_front(node);
+			mp[k] = node;
+			if(size>cp){
+				mp.erase(tail->key);
+				Node *t = detach( tail );
+#ifdef DEBUG
+				cout << "here" << endl;
+#endif
+				delete t;
+
+			}
+		}
+#ifdef DEBUG
+		cout << "Size of cache: " << size << " capacity: " << cp << endl;
+		crawl();
+#endif
+	}
+
+	virtual int get(int k){
+		auto check = mp.find(k);
+		if(check != mp.end()){
+#ifdef DEBUG
+			cout << "Found key" << endl;
+#endif
+			if( check->second != head ){
+				detach(check->second);
+				push_front(check->second);
+			}
+			return check->second->value;
+		}
+		else{
+#ifdef DEBUG
+			cout << "Not found key" << endl;
+#endif
+			return -1;
+		}
+	}
+
+private:
+	int size;
+    Node* detach(Node *entry)
+    {
+		if( entry == tail ){
+			tail = entry->prev;
+			entry->prev->next = nullptr;
+		}
+		else{
+			entry->prev->next = entry->next;
+			entry->next->prev = entry->prev;
+		}
+		entry->prev = nullptr;
+		entry->next = nullptr;
+
+		size--;
+        return entry;
+    }
+
+    void push_front(Node *entry)
+    {
+        if( head != nullptr ){
+			entry->next = head;
+			head->prev = entry;
+		}
+		else{
+			tail = entry;
+			entry->next = nullptr;
+		}
+		entry->prev = nullptr;
+		head = entry;
+		size++;
+    }
+
+	void crawl(){
+		Node *p = head;
+		while(p != nullptr){
+			cout << "Key: " << p->key << " val: " << p->value << endl;
+			p = p->next;
+		}
+	}
 };
 
 int main() {
