@@ -39,9 +39,6 @@ public:
 		auto check = mp.find(k);
 
 		if(check != mp.end()){
-#ifdef DEBUG
-			cout << "Found key" << endl;
-#endif
 			if( check->second != head ){
 				detach(check->second);
 				push_front(check->second);
@@ -49,34 +46,21 @@ public:
 			check->second->value = val;
 		}
 		else{
-#ifdef DEBUG
-			cout << "Not found key" << endl;
-#endif
 			Node* node = new Node(k,val);
 			push_front(node);
 			mp[k] = node;
 			if(size>cp){
 				mp.erase(tail->key);
 				Node *t = detach( tail );
-#ifdef DEBUG
-				cout << "here" << endl;
-#endif
 				delete t;
 
 			}
 		}
-#ifdef DEBUG
-		cout << "Size of cache: " << size << " capacity: " << cp << endl;
-		crawl();
-#endif
 	}
 
 	virtual int get(int k){
 		auto check = mp.find(k);
 		if(check != mp.end()){
-#ifdef DEBUG
-			cout << "Found key" << endl;
-#endif
 			if( check->second != head ){
 				detach(check->second);
 				push_front(check->second);
@@ -84,9 +68,6 @@ public:
 			return check->second->value;
 		}
 		else{
-#ifdef DEBUG
-			cout << "Not found key" << endl;
-#endif
 			return -1;
 		}
 	}
