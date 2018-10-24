@@ -51,8 +51,7 @@ public:
 			mp[k] = node;
 			if(size>cp){
 				mp.erase(tail->key);
-				Node *t = detach( tail );
-				delete t;
+				delete detach( tail );
 
 			}
 		}
