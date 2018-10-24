@@ -52,7 +52,6 @@ public:
 			if(size>cp){
 				mp.erase(tail->key);
 				delete detach( tail );
-
 			}
 		}
 	}
